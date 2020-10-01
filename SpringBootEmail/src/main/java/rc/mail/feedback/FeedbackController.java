@@ -1,12 +1,12 @@
 package rc.mail.feedback;
-
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+
 
 import javax.validation.ValidationException;
 
@@ -27,18 +27,17 @@ public class FeedbackController {
             throw new ValidationException("Feedback is not valid");
         }
 
-        // Create a mail sender
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost(this.emailCfg.getHost());
         mailSender.setPort(this.emailCfg.getPort());
         mailSender.setUsername(this.emailCfg.getUsername());
         mailSender.setPassword(this.emailCfg.getPassword());
+        mailSender.setHost(this.emailCfg.getHost());
+        
 
-        // Create an email instance
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom(feedback.getEmail());
-        mailMessage.setTo("rc@feedback.com");
-        mailMessage.setSubject("New feedback from " + feedback.getName());
+        mailMessage.setTo("rc@gmail.com");
+        mailMessage.setSubject("my feedback from " + feedback.getName());
         mailMessage.setText(feedback.getFeedback());
 
         // Send mail
